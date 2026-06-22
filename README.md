@@ -1,2 +1,2 @@
 # WeddingInvite
-E-Invite of Vinutha Shree T L Weds Dinesh G
+Wedding E-Invite Of Vinutha Shree T L Weds Dinesh G
