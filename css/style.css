@@ -1092,24 +1092,41 @@ form label {
 .heart {
   position: absolute;
   top: 4em;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 99;
   animation: pulse 1s ease infinite;
 }
 .heart i {
   font-size: 20px;
   background: #fff;
-  padding: 20px;
+  margin-right: 25em;
   color: #F14E95;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  border-radius: 50%;
+  border-radius: 20%;
 }
+
+@media screen and (max-width: 992px) {
+  .heart {
+    top: 3em;
+  }
+  .heart i {
+    font-size: 18px;
+    /* padding: 16px; */
+    margin-right: 0;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .heart {
-    display: none;
+    position: static;
+    transform: none;
+    margin: 1em auto;
+    display: block;
+  }
+  .heart i {
+    font-size: 18px;
+    /* padding: 16px; */
+    margin-right: 0;
   }
 }
 
