@@ -294,6 +294,54 @@
 		var muhurthamDate = parseCountdownDate('05-07-2026 06:50AM');
 		initReceptionCountdown(receptionDate);
 		scheduleThankYouMessage(muhurthamDate);
+
+		// Add Save-the-date handler: download .ics and open Google Calendar
+		(function attachSaveDateHandler() {
+			var saveBtn = document.getElementById('save-date');
+			if (!saveBtn) { return; }
+			saveBtn.addEventListener('click', function (e) {
+				e.preventDefault();
+				var title = 'Wedding: VinuthaShree T L & Dinesh G';
+				var description = 'You are invited to our wedding on 4th and 5th July 2026 at Mayura Convention Hall.';
+				var location = 'Mayura Convention Hall, Doddaballapura, Bengaluru, Karnataka 561203';
+				var start = receptionDate;
+				var end = new Date(receptionDate.getTime() + 3*60*60*1000);
+				function formatDateForICS(d) {
+					function pad(n){ return (n<10?'0':'')+n; }
+					return d.getUTCFullYear()+''+pad(d.getUTCMonth()+1)+''+pad(d.getUTCDate())+'T'+pad(d.getUTCHours())+''+pad(d.getUTCMinutes())+''+pad(d.getUTCSeconds())+'Z';
+				}
+				var icsLines = [
+					'BEGIN:VCALENDAR',
+					'VERSION:2.0',
+					'PRODID:-//Wedding Invite//EN',
+					'BEGIN:VEVENT',
+					'UID:'+Date.now()+'@wedding-invite',
+					'DTSTAMP:'+formatDateForICS(new Date()),
+					'SUMMARY:'+title,
+					'DESCRIPTION:'+description,
+					'LOCATION:'+location,
+					'DTSTART:'+formatDateForICS(start),
+					'DTEND:'+formatDateForICS(end),
+					'END:VEVENT',
+					'END:VCALENDAR'
+				];
+				var blob = new Blob([icsLines.join('\r\n')], {type:'text/calendar;charset=utf-8'});
+				var url = URL.createObjectURL(blob);
+				var a = document.createElement('a');
+				a.href = url;
+				a.download = 'save-the-date.ics';
+				document.body.appendChild(a);
+				a.click();
+				setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+				var gCalUrl = 'https://www.google.com/calendar/render?action=TEMPLATE'
+					+ '&text=' + encodeURIComponent(title)
+					+ '&details=' + encodeURIComponent(description)
+					+ '&location=' + encodeURIComponent(location)
+					+ '&dates=' + formatDateForICS(start).replace(/Z$/,'') + '/' + formatDateForICS(end).replace(/Z$/,'');
+				window.open(gCalUrl, '_blank');
+			});
+		})();
+
 	});
 
 // Ensure the page view starts at the top on navigation/reload/back-navigation
