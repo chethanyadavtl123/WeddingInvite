@@ -290,7 +290,7 @@
 		loaderPage();
 		counter();
 		counterWayPoint();
-		var receptionDate = parseCountdownDate('04-07-2026 6:30PM');
+		var receptionDate = parseCountdownDate('04-07-2026 06:30PM');
 		var muhurthamDate = parseCountdownDate('05-07-2026 06:50AM');
 		initReceptionCountdown(receptionDate);
 		scheduleThankYouMessage(muhurthamDate);
